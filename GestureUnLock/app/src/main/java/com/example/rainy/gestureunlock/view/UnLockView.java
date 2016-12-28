@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.rainy.gestureunlock.ViewUitl;
 
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import static android.media.CamcorderProfile.get;
 
@@ -43,6 +44,7 @@ public class UnLockView extends View {
     private String mRightPsw;
     private StringBuilder mInputPsw;
     private Context mContext;
+    private ResponseInput object;
 
 
 
@@ -157,9 +159,12 @@ public class UnLockView extends View {
                 Log.d(TAG,"ACTION_UP");
                 //TODO 判断密码是否正确
                 if(isInputOK()){
-                    Toast.makeText(mContext, "密码正确:"+mInputPsw, Toast.LENGTH_SHORT).show();
+
+                    object.inputOK();
+                    //Toast.makeText(mContext, "密码正确: "+mInputPsw, Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(mContext, "密码错误:"+mInputPsw, Toast.LENGTH_SHORT).show();
+                    object.inputErr();
+                   // Toast.makeText(mContext, "密码错误: "+mInputPsw, Toast.LENGTH_SHORT).show();
                 }
                 uninit();
 
@@ -191,6 +196,7 @@ public class UnLockView extends View {
     public void initResources(Context context){
 
         mContext = context;
+        object = (ResponseInput)mContext;
         mInputPsw = new StringBuilder();
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -264,5 +270,11 @@ public class UnLockView extends View {
         private int innderRadius;
         private int outterRadius;
         private boolean isClicked;
+    }
+
+    public interface ResponseInput{
+
+        public void inputOK();
+        public void inputErr();
     }
 }
